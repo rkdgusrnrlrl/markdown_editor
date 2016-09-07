@@ -1,0 +1,95 @@
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8"/>
+	<script src="./js/jquery-3.1.0.min.js"></script>
+	<script src="./js/marked.js"></script>
+	<script src="./js/prism.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/concise.css" media="all">
+	<link rel="stylesheet" type="text/css" href="./css/prism.css" media="all">
+</head>
+<body >
+	<div row>
+		<div column="6" id="editor">
+			<textarea id="text_editor" onkeyup="preview(this)" style="height:500px;"></textarea>
+			<button class="button--xsm" onclick="test()"></button>
+		</div>
+		<div column="6" id="preview">
+		</div>
+	</div>
+	<script type="text/javascript">
+	//text 값 끼워넣기
+	$.fn.extend({
+	    insertAtCaret: function(myValue) {
+	    	var textarea = $(this).get(0);  
+	    	var contents = textarea.value;
+	        var startPos = textarea.selectionStart;		//커서 시작
+	        var endPos = textarea.selectionEnd; 		//커서 끝
+	        textarea.value = contents.substring(0, startPos)+myValue+contents.substring(endPos, contents.length);
+	       	textarea.selectionStart = startPos+myValue.length;
+	        textarea.selectionEnd = startPos+myValue.length;
+	    },
+	    insertMultiLineTab: function() {
+	    	var textarea = $(this).get(0);  
+	    	
+	    	var contents = textarea.value;
+	        
+	        var startPos = textarea.selectionStart;		//커서 시작
+	        var endPos = textarea.selectionEnd; 		//커서 끝
+			
+			
+			var temp = contents.substring(startPos, endPos);
+			var firstEntIdx = contents.lastIndexOf("\n", startPos);
+	        textarea.value = contents.substring(0, firstEntIdx+1) //처음부터 블럭 설정된 행의 첫 개행 문자 까지
+					        +"\t"+contents.substring(firstEntIdx+1, startPos) //블럭 설정된 행의 첫 개행 문자 부터 블럭된 처음 문자까지
+					        +temp.replace(/\n/g, "\n\t") // 개행 앞에 탭처리
+					        +contents.substring(endPos, contents.length); // 나머지 문서부분 붙이기
+	       	textarea.selectionStart = startPos+"\t".length;
+	        textarea.selectionEnd = startPos+"\t".length;
+	    }
+	});
+	function test () {
+		var contents = $("#text_editor").val();
+		var arr = findIndex(contents, "\n");
+	}
+
+	function findIndex(str, word){ 
+		var indexArr = [];
+		var idx = 0;
+		do {
+			indexArr.push(idx);
+			idx = str.indexOf(word, idx+1);
+		} while (idx != -1);
+		return indexArr;
+	}
+
+	function findCurrLineIdx(){
+
+	}
+	
+	//키 및 단축키 설정	
+	$("#text_editor").keydown(function (e) {
+	    var keycode1 = (e.keyCode ? e.keyCode : e.which);
+	    if (keycode1 == 0 || keycode1 == 9) { // tab 이벤트
+	        $(this).insertMultiLineTab();
+	        e.preventDefault();
+	        e.stopPropagation();
+	    } else if (keycode1 == 13) {
+	    	
+	    }
+	});
+
+	/*마크다운 sytax highlight 세팅*/
+	marked.setOptions({
+	  highlight: function (code, lang) {
+	    return Prism.highlight(code, Prism.languages[lang]);
+	  }
+	});
+
+	// 마크다운 렌더링
+	function preview(el) {
+		$("#preview").html(marked($(el).val()));
+	}
+	</script>
+</body>
+</html>
