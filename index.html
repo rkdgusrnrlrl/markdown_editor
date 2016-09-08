@@ -42,8 +42,8 @@
 			var firstEntIdx = contents.lastIndexOf("\n", startPos);
 	        
 	        // text editor 값 세팅
-	        textarea.value = contents.substring(0, firstEntIdx+1) //처음부터 블럭 설정된 행의 첫 개행 문자 까지
-					        +"\t"+contents.substring(firstEntIdx+1, startPos) //블럭 설정된 행의 첫 개행 문자 부터 블럭된 처음 문자까지
+	        textarea.value = contents.substring(0, firstEntIdx) //처음부터 블럭 설정된 행의 첫 개행 문자 까지
+					        +"\t"+contents.substring(firstEntIdx, startPos) //블럭 설정된 행의 첫 개행 문자 부터 블럭된 처음 문자까지
 					        +temp.replace(/\n/g, "\n\t") // 개행 앞에 탭처리
 					        +contents.substring(endPos, contents.length); // 나머지 문서부분 붙이기
 
