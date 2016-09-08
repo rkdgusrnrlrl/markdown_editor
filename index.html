@@ -6,25 +6,25 @@
 	<script src="./js/marked.js"></script>
 	<script src="./js/prism.js"></script>
 	<script src="./js/jquery-textarea-extends.js"></script>
-	<link rel="stylesheet" type="text/css" href="./css/concise.css" media="all">
+	<link rel="stylesheet" type="text/css" href="./css/flexboxgrid.min.css" media="all">
+	<link rel="stylesheet" type="text/css" href="./css/github-markdown.css" media="all">
 	<link rel="stylesheet" type="text/css" href="./css/prism.css" media="all">
 </head>
 <body onload="preview()">
-	<div style="padding : 20px;">
-		<div row>
-			<div column="6" id="editor">
-				<textarea id="text_editor" onkeyup="preview(this)" style="height:500px;"></textarea>
-			</div>
-			<div column="6" id="preview">
-			</div>
+	
+	<div class="row">
+		<div class="col-xs-6" id="editor">
+			<textarea id="text_editor" onkeyup="preview(this)" style="width : 100%; height:500px;"></textarea>
+		</div>
+		<div class="col-xs-6 markdown-body" id="preview">
 		</div>
 	</div>
+	
 	
 	<script type="text/javascript">
 	
 	//키 및 단축키 설정	
 	$("#text_editor").keydown(function (e) {
-
 	    var keycode1 = (e.keyCode ? e.keyCode : e.which);
 	    if (keycode1 == 0 || keycode1 == 9) { // tab 이벤트
 	        e.preventDefault();
