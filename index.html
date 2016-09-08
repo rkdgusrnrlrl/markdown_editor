@@ -48,10 +48,6 @@
 	        textarea.selectionEnd = startPos+"\t".length;
 	    }
 	});
-	function test () {
-		var contents = $("#text_editor").val();
-		var arr = findIndex(contents, "\n");
-	}
 
 	function findIndex(str, word){ 
 		var indexArr = [];
@@ -75,8 +71,21 @@
 	        e.preventDefault();
 	        e.stopPropagation();
 	    } else if (keycode1 == 13) {
-	    	
+	    	e.preventDefault();
+	        e.stopPropagation();
+
+	    	var startPos = this.selectionStart;		//커서 시작
+	        var endPos = this.selectionEnd; 		//커서 끝	        
+	        var contents = this.value;
+	        this.value = contents.substring(0, startPos)+"\n\t"+contents.substring(endPos, contents.length);
+	        this.selectionStart = startPos+"\n\t".length;
+	        this.selectionEnd = endPos+"\n\t".length;
 	    }
+	});
+
+	$("#text_editor").keyup(function(e){
+		var keycode1 = (e.keyCode ? e.keyCode : e.which);
+		
 	});
 
 	/*마크다운 sytax highlight 세팅*/
